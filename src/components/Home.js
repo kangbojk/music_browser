@@ -6,16 +6,17 @@ import Genre from './Genre';
 function Home() {
     const [albums, setAlbums] = useState([])
     const [genres, setGenres] = useState([])
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         // const apiURL = 'https://rss.applemarketingtools.com/api/v2/us/music/most-played/50/albums.json'
         const proxyURL = "https://raw.githubusercontent.com/kangbojk/music_browser/master/data/albums.json"
 
         const fetchData = async () => {
+            setLoading(true)
             const { data } = await axios.get(`${proxyURL}`)
             const album_list = data['feed']['results']
             setAlbums(album_list)
-            console.log(album_list)
 
             const unique_genre = {}
             for (const album of album_list) {
@@ -27,7 +28,7 @@ function Home() {
             }
 
             setGenres(Object.keys(unique_genre).map((key) => key))
-
+            setLoading(false)
         }
 
         try {
@@ -45,8 +46,7 @@ function Home() {
             </h1>
 
             <div >
-                {genres.map(genre => <Genre key={genre} genre={genre} albums={albums} />)}
-
+                {loading ? <>Loading...</> : genres.map(genre => <Genre key={genre} genre={genre} albums={albums} />)}
             </div>
 
         </div>
