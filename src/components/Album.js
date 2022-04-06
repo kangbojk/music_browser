@@ -1,11 +1,15 @@
+import { Link } from "react-router-dom";
+
 function Album({ data }) {
-    const { artistName, artistUrl, artworkUrl100, name } = data
-    console.log("name: ", name)
+    const { id, artistName, artistUrl, artworkUrl100, name } = data
+    // console.log("name: ", name)
     return (
         <div className="Album">
-            <img src={artworkUrl100} />
-            <h3>{name}</h3>
-            <p>{artistName}</p>
+            <Link to={`albums/` + id}>
+                <img src={artworkUrl100} />
+                <h3>{name}</h3>
+                <p>{artistName}</p>
+            </Link>
         </div>
     )
 
